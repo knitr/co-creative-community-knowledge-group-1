@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <div th:replace="fragments.html :: header"></div>
+
+
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+<br>
+
+<!--Write under this-->
+<form id="createCommunityForm" style="margin: 60px" th:action="@{/home/NewCommunity}"
+      th:object="${community}" method="post" enctype="multipart/form-data">
+
+
+     <div id="nameRow" class="row">
+
+                <div class="form-group" style="align-content: center">
+                    <label for="nameInput">Community Name</label>
+                    <input th:field="*{name}" type="text" class="form-control" id="nameInput" placeholder="e.g Healthcare Community...">
+                </div>
+     </div>
+
+            <div id="descriptionRow" class="row">
+                <div class="form-group">
+                    <label for="communityDescription">Community Description</label>
+                    <textarea th:field="*{description}" class="form-control" id="communityDescription" rows="5"></textarea>
+
+                </div>
+            </div>
+
+            <div id="yourGoalRow" class="row">
+                <div class="form-group">
+                    <label for="goal">Your Goal</label>
+                    <textarea th:field="*{goal}" type="textarea"  class="form-control" id="goal" rows="3"></textarea>
+
+                </div>
+            </div>
+
+            <div id="historyRow" class="row">
+                <div class="form-group">
+                    <label for="history">History</label>
+                    <textarea th:field="*{history}" class="form-control" id="history" rows="3"></textarea>
+                </div>
+            </div>
+    <div id="aboutUsRow" class="row">
+        <div class="form-group">
+            <label for="history">About Us</label>
+            <textarea th:field="*{aboutUs}" class="form-control" id="aboutUs" rows="3"></textarea>
+        </div>
+    </div>
+
+    <div id="profPicRow" class="row">
+        <div class="form-group" >
+            <label for="prof-picture"> Upload a profile picture </label>
+            <input  type="file" name="image" id="prof-picture" accept="image/png, image/jpeg">
+        </div>
+    </div>
+
+    <br>
+    <div class="d-grid">
+        <button class="btn btn-primary btn-lg" id="submitButton" style="width: 100px" type="submit">Submit</button>
+    </div>
+
+</form>
+
+
+
+
+<div th:replace="fragments.html :: footer"></div>
+
+</body>
+</html>

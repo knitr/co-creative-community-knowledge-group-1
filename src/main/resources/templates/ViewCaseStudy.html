@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="fragments.html :: header"></div>
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+<br>
+
+
+<main class="container">
+
+
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+            <h1 th:text="${casestudy.getTitle()}"></h1>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-md-8">
+
+            <article class="caseStudy-Main">
+                <h2 class="caseStudy-Intro">Introduction</h2>
+                <p th:text="${casestudy.getCaseIntroduction()}"></p>
+                <hr>
+
+                <h2 class="caseStudy-Evaluation">Case evaluation</h2>
+                <p th:text="${casestudy.getCaseEvaluation()}"></p>
+                <hr>
+
+                <h2 class = "caseStudy-Solutions">Case solutions</h2>
+                <p th:text="${casestudy.getCaseSolutions()}"></p>
+
+                <hr>
+
+                <h2 class="caseStudy-Implementation">Implementations</h2>
+                <p th:text="${casestudy.getImplementations()}"></p>
+                <hr>
+
+                <h2 class="caseStudy-Conclusion">Conclusion</h2>
+                <p th:text="${casestudy.getConclusion()}"></p>
+                <hr>
+            </article>
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+
+                <div class="p-4">
+                    <h4 class="fst-italic">Contact Us</h4>
+                    <ol class="list-unstyled">
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+
+<div th:replace="fragments.html :: footer"></div>
+</body>
+</html>

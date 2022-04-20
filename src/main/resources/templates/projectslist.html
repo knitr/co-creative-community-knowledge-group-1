@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Projects</title>
+    <div th:replace="fragments.html :: header"></div>
+    <link rel="stylesheet" href="css/mystyle.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+<br>
+<h2>
+    Recent Projects
+</h2>
+
+<div style="margine:60px 50px;">
+    <main class="container" th:each="project: ${projects}">
+        <div class="row mb-2">
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-350 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <strong class="d-inline-block mb-2 text-primary" th:text="${project.getCommunity().getName()}">RIBA
+                            North East </strong>
+                        <h3 class="mb-0" th:text="${project.getName()}">Sustainability mastermind Project - Working
+                            towards a Passivhaus Overlay</h3>
+                        <div class="mb-1 text-muted">Nov 25</div>
+                        <p class="card-text mb-auto" th:text="${project.getDescription()}">J</p>
+                        <a th:href="@{/project/{id}(id = ${project.id})}" class="stretched-link">View Project</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <img alt="riba image"
+                     src="https://riba-prd-assets.azureedge.net/-/media/Riba/Images/Block-Images/RIBA-in-your-area/Nations-and-regions/RIBA-North-East-events.jpg?rev=9682616b4b4749bcafca72dbf2383942&h=348&w=538&la=en&hash=3A35265DBE09263A70427B7011C6A1AF"
+                     width="270" height="380">
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<div th:replace="fragments.html :: footer"></div>
+
+</body>
+</html>

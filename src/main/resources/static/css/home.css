@@ -1,0 +1,24 @@
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+    background-color: aqua;
+}
+
+row {
+    display: flex;
+    justify-content: center;
+}
+
+col {
+    margin-left: 20px;
+    padding: 1rem;
+    backround-color: rgb(173, 216, 230);
+    border: 2px solid #fafafa;
+    text-align: center;
+}
+img{
+    margin-top: 75px;
+    border: 1px solid white;
+    width: auto;
+    height: auto;
+}

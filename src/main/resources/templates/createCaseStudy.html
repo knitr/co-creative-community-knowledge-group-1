@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <div th:replace="fragments.html :: header"></div>
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+
+<br>
+<h1 align="center">Create a case study</h1>
+<div class="container px-10 my-10" style="background: linear-gradient()">
+
+    <form th:action="@{/createCaseStudy}" th:object="${casestudy}" method="post">
+
+        <div class="mb-3">
+            <label class="form-label">Your proposed case study title: </label>
+            <input type="text" class="form-control" maxlength="2000" th:field="*{title}"
+                   placeholder="Your case study's title "/>
+        </div>
+
+
+        <div class="mb-3">
+            <label class="form-label" style="text-align: center">Your case study's introduction:</label>
+            <div class="col-md-12">
+                <textarea class="form-control" onkeypress="auto_grow(this);" onkeyup="auto_grow(this)" rows="5"
+                          th:field="*{caseIntroduction}" placeholder="Your case study's introduction "></textarea>
+            </div>
+
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Your case study's solution </label>
+            <div class="col-md-12">
+                <textarea class="form-control" onkeypress="auto_grow(this);" onkeyup="auto_grow(this)" rows="5"
+                          th:field="*{caseSolutions}" placeholder="Your case study's solusion"></textarea>
+            </div>
+
+            <input type="hidden" th:value="${casestudy.getCommunity().getId()}" name="communityId"/>
+
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Your case study's evaluation </label>
+            <div class="col-md-12">
+                <textarea class="form-control" onkeypress="auto_grow(this);" onkeyup="auto_grow(this)" rows="5"
+                          th:field="*{caseEvaluation}" placeholder="Your case study's evaluation"></textarea>
+            </div>
+
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Your case study's implementations </label>
+            <div class="col-md-12">
+                <textarea class="form-control" onkeypress="auto_grow(this);" onkeyup="auto_grow(this)" rows="5"
+                          th:field="*{implementations}" placeholder="Your case study's implementations"></textarea>
+            </div>
+
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Your case study's conclusion </label>
+            <div class="col-md-12">
+                <textarea class="form-control" onkeypress="auto_grow(this);" onkeyup="auto_grow(this)" rows="5"
+                          th:field="*{conclusion}" placeholder="Your case study's conclusion"></textarea>
+            </div>
+
+        </div>
+
+        <div class="d-grid">
+
+            <button class="btn btn-secondary btn-lg" id="submitButton" type="submit">Create</button>
+        </div>
+
+    </form>
+</div>
+<div th:replace="fragments.html :: footer"></div>
+<script>
+    function auto_grow(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight) + "px";
+    }
+</script>
+</body>
+
+
+</html>

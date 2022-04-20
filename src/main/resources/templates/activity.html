@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="fragments.html :: header"></div>
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+<div class="container px-5 my-5">
+    <div>
+        <h1>Activity</h1>
+    </div>
+    <form th:action="@{/activity/create}" th:object="${activity}" method="post">
+
+        <div class="mb-3">
+            <label class="form-label">name</label>
+            <input type="name" th:field="*{name}" name="name" id="a1" class="form-control" required/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">description</label>
+            <input type="text" th:field="*{description}" name="description" class="form-control"
+                   required/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">activityDateAndTime</label>
+            <input type="datetime-local" th:field="*{activityDateAndTime}" class="form-control"
+                   name="activityDateAndTime"
+                   required/>
+
+            <input type="hidden" th:value="${activity.getCommunity().getId()}" name="communityId"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">venue</label>
+            <input type="text" name="venue" th:field="*{venue}" class=" form-control"
+                   required/>
+        </div>
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Create Activity</button>
+        </div>
+    </form>
+
+</div>
+<div th:replace="fragments.html :: footer"></div>
+</body>
+</html>

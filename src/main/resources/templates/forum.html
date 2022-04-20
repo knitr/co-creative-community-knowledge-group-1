@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <div th:replace="fragments.html :: header"></div>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styles.css}"/>
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+
+
+<div class="flex bg-blue-lightest flex flex-col font-sans min-h-screen">
+    <div class="mt-12">
+        <div class="container mx-auto">
+            <div class="flex w-960 mx-auto">
+                <div class="w-2/3">
+                    <div class="py-2">
+                        <div class="flex border border-grey-light-alt hover:border-grey rounded bg-white cursor-pointer">
+                            <div class="w-1/12 flex flex-col text-center pt-2">
+
+                            </div>
+                            <div class="w-11/12 pt-3">
+                                <form th:action="@{/forum/createPost}" th:object="${post}"
+                                      method="post">
+
+                                    <div class="mb-4">
+                                        <input type="text" id="createPost" th:field="*{title}" class="form-control"
+                                               required
+                                               placeholder="Create Post" maxlength="255"/>
+                                    </div>
+                                    <div class="mb-4 postbody">
+                                    <textarea class="form-control" th:field="*{body}"
+                                              placeholder="Content .. " required maxlength="5000" rows="4"> </textarea>
+                                        <br>
+                                        <label>Select community</label>
+                                        <select class="form-select" th:field="*{communityId}">
+                                            <option th:each="community :  ${communityList}"
+                                                    th:value="${community.getId()}"
+                                                    th:text="${community.getName()}">
+                                            </option>
+                                        </select>
+                                        <br>
+                                        <br>
+                                        <div class="position-relative">
+                                            <button type="submit"
+                                                    class="btn btn-secondary rounded btn-sm position-absolute bottom-100 end-0">
+                                                Post
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!--                                </div>-->
+                            <div class="w-1/12 flex flex-col text-center pt-2">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-2" th:each="postObject: ${posts}">
+                        <div class="flex border border-grey-light-alt hover:border-grey rounded bg-white cursor-pointer">
+                            <div class="w-1/12 flex flex-col text-center pt-2">
+
+                            </div>
+                            <div class="w-11/12 pt-2">
+                                <div class="flex items-center text-xs mb-2">
+                                    <a href="#"
+                                       class="font-semibold no-underline hover:underline text-black flex items-center">
+                                        <img class="rounded-full border h-5 w-5"
+                                             src="https://avatars0.githubusercontent.com/u/30317862?s=200&v=4">
+                                        <span class="ml-2">
+                                        <span th:text="${postObject.getCommunity().getName()}"></span>
+                                        </span>
+                                    </a>
+                                    <span class="text-grey-light mx-1 text-xxs">•</span>
+                                    <span class="text-grey">Posted by</span>
+                                    <a href="#" class="text-grey mx-1 no-underline hover:underline"
+                                       th:text="${postObject.getUser().getFirstName()}"></a>
+                                    <span class="text-grey" th:text="${postObject.getPrettyTime()}"></span>
+                                </div>
+                                <div>
+                                    <h2 class="text-font-medium mb-1" th:text="${postObject.getTitle()}"></h2>
+                                    <br>
+                                    <h3 class=" text-lg font-medium mb-2" th:text="${postObject.getBody()}"></h3>
+                                </div>
+
+                                <div class=" inline-flex items-center my-1"
+                                     th:onclick="'showCommentSection('+ ${postObject.id} +')'">
+                                    <div class="flex hover:bg-grey-lighter p-1">
+                                        <svg class="w-4 fill-current text-grey"
+                                             xmlns="http://www.w3.org/2000/svg"
+                                             viewBox="0 0 20 20">
+                                            <path d="M10 15l-4 4v-4H2a2 2 0 0 1-2-2V3c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-8zM5 7v2h2V7H5zm4 0v2h2V7H9zm4 0v2h2V7h-2z"/>
+                                        </svg>
+                                        <span class="ml-2 text-xs font-semibold text-grey">
+                                        <span
+                                                th:text="${postObject.getComments().size()}"></span> Comments</span>
+                                    </div>
+
+
+                                    <!--                                    <div class="flex hover:bg-grey-lighter p-1 ml-2">-->
+                                    <!--                                        <svg class="w-4 fill-current text-grey"-->
+                                    <!--                                             xmlns="http://www.w3.org/2000/svg"-->
+                                    <!--                                             viewBox="0 0 20 20">-->
+                                    <!--                                            <path d="M5.08 12.16A2.99 2.99 0 0 1 0 10a3 3 0 0 1 5.08-2.16l8.94-4.47a3 3 0 1 1 .9 1.79L5.98 9.63a3.03 3.03 0 0 1 0 .74l8.94 4.47A2.99 2.99 0 0 1 20 17a3 3 0 1 1-5.98-.37l-8.94-4.47z"/>-->
+                                    <!--                                        </svg>-->
+                                    <!--                                        <span class="ml-2 text-xs font-semibold text-grey">Share</span>-->
+                                    <!--                                    </div>-->
+
+                                </div>
+
+
+                                <div th:id="'commentSection' + ${postObject.id}" class="mb-4" style="display: none">
+                                    <div th:each="commentObject: ${postObject.getComments()}">
+                                        <div class="flex items-center text-xs mb-2">
+                                            <span class="text-grey-light mx-1 text-xxs">•</span>
+                                            <span class="text-grey">Posted by</span>
+                                            <a href="#"
+                                               class="text-grey mx-1 no-underline hover:underline"
+                                               th:text="${commentObject.getUser().getFirstName()}">u/TestUser</a>
+                                            <span class="text-grey"
+                                                  th:text="${commentObject.getPrettyTime()}"></span>
+                                        </div>
+                                        <h2 class="text-lg font-medium mb-1"
+                                            th:text="${commentObject.getBody()}"></h2>
+                                        <hr>
+                                    </div>
+                                    <form class="w-11/12 pt-3"
+                                          th:action="@{/forum/addComment/{id}(id = ${postObject.id})}"
+                                          th:object="${comment}"
+                                          method="post">
+
+                                        <div class="mb-4">
+                                        <textarea class="form-control" placeholder="Content .. "
+                                                  th:field="*{body}"> </textarea>
+                                            <br>
+                                            <br>
+                                            <div class="position-relative">
+                                                <button type="submit"
+                                                        class="btn btn-secondary rounded btn-sm position-absolute bottom-100 end-0">
+                                                    Comment
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <div class="w-1/12 flex flex-col text-center pt-2">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/3 ml-5">
+                    <div class="py-2">
+                        <div class="rounded bg-white mb-4">
+                            <div class="p-3">
+                                <div class="h-8 -m-3 bg-no-repeat bg-100%"
+                                     style="background-image: url('https://www.redditstatic.com/desktop2x/img/id-cards/banner@2x.png');">
+                                </div>
+                                <div>
+                                    <div class="inline-flex items-center">
+                                        <img src="https://www.redditstatic.com/desktop2x/img/id-cards/snoo-home@2x.png"
+                                             class="h-16">
+                                        <span class="text-lg ml-4 mt-6">Forum</span>
+                                    </div>
+                                    <p class="font-normal mb-3 text-sm leading-normal">The best posts on Cc-Create for
+                                        you,
+                                        pulled from the most active communities. Check here to see the most
+                                        shared and commented community posts </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rounded bg-white mb-4">
+                            <div class="p-3 text-xxs font-semibold w-full">TRENDING COMMUNITIES</div>
+                            <div class="pb-4">
+                                <div class="px-3 py-2">
+                                    <div class="flex" th:each="community: ${communityList}">
+                                        <img class="h-5 w-5 border rounded-full mr-2"
+                                             src="https://avatars0.githubusercontent.com/u/30317862?s=200&v=4">
+                                        <div class="flex flex-col font-medium">
+                                            <a th:href="@{/forum/sortByCommunityId/{id}(id = ${community.id})}"
+                                               class="text-xs text-black-alt no-underline leading-tight"
+                                               th:text="${community.name}"></a>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <!--                                <div class="px-3 py-2">-->
+                                <!--                                    <div class="flex">-->
+                                <!--                                        <img class="h-8 w-8 border rounded-full mr-2"-->
+                                <!--                                             src="https://avatars0.githubusercontent.com/u/30317862?s=200&v=4">-->
+                                <!--                                        <div class="flex flex-col font-medium">-->
+                                <!--                                            <a href="#" class="text-xs text-black-alt no-underline leading-tight">r/tailwind</a>-->
+                                <!--                                            <span class="text-xxs">1.000 subscribers</span>-->
+                                <!--                                        </div>-->
+                                <!--                                        <div class="flex ml-auto">-->
+                                <!--                                            <button class="bg-blue-dark text-xs text-white font-semibold rounded px-4 ml-auto">-->
+                                <!--                                                SUBSCRIBE-->
+                                <!--                                            </button>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="px-3 py-2">-->
+                                <!--                                    <div class="flex">-->
+                                <!--                                        <img class="h-8 w-8 border rounded-full mr-2"-->
+                                <!--                                             src="https://avatars0.githubusercontent.com/u/30317862?s=200&v=4">-->
+                                <!--                                        <div class="flex flex-col font-medium">-->
+                                <!--                                            <a href="#" class="text-xs text-black-alt no-underline leading-tight">r/tailwind</a>-->
+                                <!--                                            <span class="text-xxs">1.000 subscribers</span>-->
+                                <!--                                        </div>-->
+                                <!--                                        <div class="flex ml-auto">-->
+                                <!--                                            <button class="bg-blue-dark text-xs text-white font-semibold rounded px-4 ml-auto">-->
+                                <!--                                                SUBSCRIBE-->
+                                <!--                                            </button>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="px-3 py-2">-->
+                                <!--                                    <div class="flex">-->
+                                <!--                                        <img class="h-8 w-8 border rounded-full mr-2"-->
+                                <!--                                             src="https://avatars0.githubusercontent.com/u/30317862?s=200&v=4">-->
+                                <!--                                        <div class="flex flex-col font-medium">-->
+                                <!--                                            <a href="#" class="text-xs text-black-alt no-underline leading-tight">r/tailwind</a>-->
+                                <!--                                            <span class="text-xxs">1.000 subscribers</span>-->
+                                <!--                                        </div>-->
+                                <!--                                        <div class="flex ml-auto">-->
+                                <!--                                            <button class="bg-blue-dark text-xs text-white font-semibold rounded px-4 ml-auto">-->
+                                <!--                                                SUBSCRIBE-->
+                                <!--                                            </button>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                                <!--                                <div class="px-3 py-2">-->
+                                <!--                                    <div class="flex">-->
+                                <!--                                        <img class="h-8 w-8 border rounded-full mr-2"-->
+                                <!--                                             src="https://avatars0.githubusercontent.com/u/30317862?s=200&v=4">-->
+                                <!--                                        <div class="flex flex-col font-medium">-->
+                                <!--                                            <a href="#" class="text-xs text-black-alt no-underline leading-tight">r/tailwind</a>-->
+                                <!--                                            <span class="text-xxs">1.000 subscribers</span>-->
+                                <!--                                        </div>-->
+                                <!--                                        <div class="flex ml-auto">-->
+                                <!--                                            <button class="bg-blue-dark text-xs text-white font-semibold rounded px-4 ml-auto">-->
+                                <!--                                                SUBSCRIBE-->
+                                <!--                                            </button>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
+                            </div>
+                        </div>
+                        <div class="rounded bg-white mb-4">
+                            <div class="p-3">
+                                <div class="flex justify-between">
+                                    <div>
+                                        <a href="#" class="block text-black no-underline text-xs font-medium">About</a>
+                                    </div>
+                                </div>
+                                <div class="text-center mt-6">
+                                    <p class="text-xs text-black leading-tight font-medium">
+                                        <a href="#" class="text-black no-underline">Content Policy</a> | <a href="#"
+                                                                                                            class="text-black no-underline">Privacy
+                                        Policy</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<div th:replace="fragments.html :: footer"></div>
+
+</body>
+</html>

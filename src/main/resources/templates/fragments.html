@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div id="header" th:fragment="header">
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+        <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+        <script type="text/javascript" th:src="@{/js/main.js}"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </div>
+
+</head>
+<body>
+
+
+<nav th:fragment="navbar" id="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/home}">Co-Create</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/home}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Communities
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li class="dropdown-overtop" th:each="community: ${communityList}">
+                            <a class="dropdown-item" th:href="@{/community/{id}(id = ${community.id})}"
+                               th:text="${community.name}"></a>
+                            <!--                            <hr class="dropdown-divider">-->
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/locations}">Locations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/forum/home}">Forum</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link active" th:href="@{/home/NewCommunity}">Create Community</a>
+                </li>
+
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>-->
+                <!--                </li>-->
+            </ul>
+
+            <div sec:authorize="!isAuthenticated()" class="d-flex flex-row-reverse">
+                <a class="nav-link active" th:href="@{/login}" tabindex="-1">Login</a>
+            </div>
+            <div sec:authorize="!isAuthenticated()" class="d-flex flex-row-reverse">
+                <a class="nav-link active" th:href="@{/user/registration}" tabindex="-1">Sign-up</a>
+            </div>
+
+            <div sec:authorize="isAuthenticated()" class="d-flex flex-row-reverse">
+                <a class="nav-link active" th:href="@{/logout}" tabindex="-1">Logout</a>
+            </div>
+
+
+            <!--            <form class="d-flex">-->
+            <!--                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">-->
+            <!--                <button class="btn btn-outline-success" type="submit">Search</button>-->
+            <!--            </form>-->
+        </div>
+    </div>
+</nav>
+
+<div th:fragment="alert">
+    <div class="alert alert-primary" role="alert" th:text="${success}" th:if="${success}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
+</div>
+
+<footer th:fragment="footer" class="blog-footer">
+    <p>Copyrights @Co-create
+    </p>
+    <p>
+        <a href="#">Back to top</a>
+    </p>
+</footer>
+
+</body>
+</html>

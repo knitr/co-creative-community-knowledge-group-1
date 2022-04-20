@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:replace="fragments.html :: header"></div>
+</head>
+<body>
+<div id="navbar" th:replace="fragments.html :: navbar"></div>
+<div class="container px-5 my-5">
+    <div>
+        <h1>Education and Training links </h1>
+    </div>
+    <form th:action="@{/resource/create}" th:object="${resource}" method="post">
+
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="name" th:field="*{name}" name="name" id="a1" class="form-control" required/>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">External URL</label>
+            <input type="name" th:field="*{url}" name="url" class="form-control" required/>
+        </div>
+
+
+        <input type="hidden" th:value="${resource.getCommunity().getId()}" name="communityId"/>
+
+
+        <div>
+            <button type="submit" class="btn btn-primary btn-lg" id="submitButton">Create Resource</button>
+        </div>
+    </form>
+
+</div>
+<div th:replace="fragments.html :: footer"></div>
+</body>
+</html>
